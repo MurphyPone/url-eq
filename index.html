@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var l = ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"];
+      var x = new AudioContext();
+      var a = x.createAnalyser();
+      a.fftSize = 32;
+      var d = new Uint8Array(16);
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(s => {
+        x.createMediaStreamSource(s).connect(a);
+        z();
+      });
+
+      function z() {
+          setTimeout(z, 40);
+          a.getByteFrequencyData(d);
+          var s = [];
+          d.forEach(v => s.push(l[Math.floor((v / 255) * 8)]));
+          var t = document.title = s.join("");
+          history.replaceState(history.state, t, '#' + t);
+        }
+  </script>
+  </body>
+</html>
